@@ -6,25 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('formations', function (Blueprint $table) {
             $table->id();
-            $table->String('formation_type');
-            $table->String('formation_niveau');
-            $table->String('nombre_annee');
+            $table->string('niveau_formation')->nullable();
+            $table->string('type_formation')->nullable();
+            $table->string('mode_formation')->nullable();
+            $table->string('creneau')->nullable();
+            $table->dateTime("date_maj")->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('formations');
     }
 };
+
