@@ -22,7 +22,6 @@ class Module extends Model
         'MHT_presentiel_s2',
         'MHT_sync_s2'
     ];
-
     public function formateurModules()
     {
         return $this->hasMany(FormateurModule::class);
@@ -33,7 +32,6 @@ class Module extends Model
         return $this->belongsToMany(Filiere::class, 'filieres_modules')
             ->withTimestamps();
     }
-
     public function groupes()
     {
         return $this->belongsToMany(Groupe::class, 'formateurs_modules')
@@ -42,12 +40,10 @@ class Module extends Model
                         'mh_affectee_presentiel', 'mh_affectee_sync')
             ->withTimestamps();
     }  
-   
     public function groupesDirect()
     {
         return $this->belongsToMany(Groupe::class, 'groupes_modules')
         ->withPivot('MHT_presentiel_realisees', 'MHT_sync_realisees')
         ->withTimestamps();
     } 
-  
 }

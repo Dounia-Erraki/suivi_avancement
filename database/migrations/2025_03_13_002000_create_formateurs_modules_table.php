@@ -19,7 +19,7 @@ return new class extends Migration
             $table->float('mh_affectee_presentiel')->default(0.00);
             $table->float('mh_affectee_sync')->default(0.00);
             $table->timestamps();
-            $table->unique(['groupe_id', 'module_id'], 'unique_groupe_module');
+            $table->unique(['groupe_id', 'module_id']);
 
         });
     }

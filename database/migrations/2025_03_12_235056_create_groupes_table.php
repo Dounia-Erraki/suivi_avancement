@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('filiere_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps(); 
             $table->unique(['nom_groupe', 'filiere_id']);
-            //! a verifier s'il va cause un probleme
         });
     }
 
