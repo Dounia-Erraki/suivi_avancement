@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\DB;
 
 class ModulesImport implements ToCollection, WithHeadingRow
 {
+   
+    public function __construct()
+    {
+        $this->cleanupOldData();
+    }
+    
     public function collection(Collection $rows)
     {
         DB::beginTransaction();
@@ -27,7 +33,6 @@ class ModulesImport implements ToCollection, WithHeadingRow
                     'creneau' => $row['creneau'] ?? null,
                     'mode_formation' => $row['mode'] ?? null,
                     'date_maj' => isset($row['date_maj']) ? \Carbon\Carbon::createFromFormat('d/m/Y H:i:s', $row['date_maj'])->format('Y-m-d H:i:s') : null,
-
                 ]);
 
                 $filiere = Filiere::firstOrCreate(
@@ -114,12 +119,34 @@ class ModulesImport implements ToCollection, WithHeadingRow
                         'MHT_sync_realisees' => isset($row['mh_realisee_sync']) ? (float)$row['mh_realisee_sync'] : 0.00,
                     ]
                 );
-                
             }
             
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
+            throw $e;
+        }
+    }
+    
+    private function cleanupOldData()
+    {
+        try {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0');
+            
+            DB::table('groupes_modules')->delete();
+            DB::table('filieres_modules')->delete();
+            
+            FormateurModule::query()->delete();
+            Groupe::query()->delete();
+            Filiere::query()->delete();
+            Module::query()->delete();
+            Formateur::query()->delete();
+            Formation::query()->delete();
+            
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        } catch (\Exception $e) {
+
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
             throw $e;
         }
     }
