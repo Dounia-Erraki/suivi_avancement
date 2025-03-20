@@ -80,13 +80,12 @@ export default function FormateursRendement() {
 
             <Table.Body className="divide-y">
               {excelData.map((data, index) => {
-                // Calculate total hours
+
                 const totalHours = data.mhp_totale + data.mhsyn_totale;
                 const totalRealizedHours = data.mhp_realisee + data.mhsyn_realisee;
                 
-                // Calculate rendement (percentage)
                 const rendement = totalRealizedHours > 0 
-                  ? ((totalRealizedHours / totalHours) * 100).toFixed(2) 
+                  ? Math.round((totalRealizedHours / totalHours) * 100)
                   : 0;
                 
                 return (
