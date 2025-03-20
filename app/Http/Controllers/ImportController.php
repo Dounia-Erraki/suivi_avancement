@@ -19,11 +19,21 @@ class ImportController extends Controller
             'file' => 'required|mimes:xlsx,xls,csv',
         ]);
 
+        // try {
+        //     Excel::import(new ModulesImport, $request->file('file'));
+        //     return redirect()->back()->with('success', 'Données importées avec succès!');
+        // } catch (\Exception $e) {
+        //     return redirect()->back()->with('error', 'Erreur lors de l\'importation: ' . $e->getMessage());
+        // }
         try {
             Excel::import(new ModulesImport, $request->file('file'));
-            return redirect()->back()->with('success', 'Données importées avec succès!');
+            return response()->json(['message' => 'Données importées avec succès!'], 200);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Erreur lors de l\'importation: ' . $e->getMessage());
+            return response()->json([
+                'error' => "Erreur lors de l'importation: " . $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ], 500);
         }
     }
     
