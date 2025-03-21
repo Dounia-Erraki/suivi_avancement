@@ -15,9 +15,9 @@ class AffectationModuleController extends Controller
      */
     public function index()
     {
-        
+
         $formateurs = DB::select("
-            SELECT 
+            SELECT
                 f.mle_formateur,
                 f.nom_formateur,
                 fil.nom_filiere ,
@@ -40,7 +40,7 @@ class AffectationModuleController extends Controller
 
             UNION
 
-            SELECT 
+            SELECT
                 f.mle_formateur,
                 f.nom_formateur ,
                 fil.nom_filiere ,
@@ -64,7 +64,7 @@ class AffectationModuleController extends Controller
 
             UNION
 
-            SELECT 
+            SELECT
                 f.mle_formateur,
                 f.nom_formateur,
                 fil.nom_filiere,

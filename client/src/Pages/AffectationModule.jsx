@@ -6,20 +6,22 @@ import { HiInformationCircle } from "react-icons/hi";
 
 export default function Affectation() {
   const [excelData, setExcelData] = useState([]);
+  const [searched, setSearched] = useState("");
+  const [filteredData, setFilteredData] = useState([])
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         const response = await fetch("http://127.0.0.1:8000/api/AffectationController");
-        
+
         if (!response.ok) {
           throw new Error("La réponse du réseau n'était pas correcte");
         }
-        
+
         const data = await response.json();
         setExcelData(data);
       } catch (error) {
@@ -29,10 +31,21 @@ export default function Affectation() {
         setLoading(false);
       }
     };
-    
+
     fetchData();
   }, []);
-  
+   useEffect(() => {
+          if (searched) {
+              setFilteredData(
+                  excelData.filter((d) =>
+                      d.nom_module.toLowerCase().includes(searched.toLowerCase())
+                  )
+              );
+          } else {
+              setFilteredData(excelData);
+          }
+      }, [searched, excelData]);
+
    if (loading) {
       return (
         <div className="flex flex-col items-center">
@@ -41,7 +54,7 @@ export default function Affectation() {
         </div>
       );
     }
-  
+
     if (error) {
       return (
         <div className="flex flex-col items-center gap-4">
@@ -58,8 +71,44 @@ export default function Affectation() {
   return (
     <div className="mx-auto p-4">
       <Card>
-        <h2 className="text-2xl font-bold text-black mb-4">Etat d'affectation des modules</h2>
-        
+        <h2 className="text-2xl font-bold text-black mb-4">Etat d'affectation des modules </h2>
+        <form>
+                    <label
+                        for="search"
+                        class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+                    >
+                        Search
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg
+                                class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 20 20"
+                            >
+                                <path
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                                />
+                            </svg>
+                        </div>
+                        <input
+                            type="search"
+                            value={searched}
+                            onChange={e=>setSearched(e.target.value)}
+                            id="search"
+                            class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Recherche Par Module"
+                            required
+                        />
+
+                    </div>
+                </form>
         <div className="overflow-x-auto">
           <Table striped hoverable className="text-black text-xs">
             <Table.Head className="bg-gray-100">
@@ -84,7 +133,7 @@ export default function Affectation() {
             </Table.Head>
 
             <Table.Body className="divide-y text-center">
-              {excelData.map((data, index) => (
+              {filteredData.map((data, index) => (
                 <Table.Row key={index} className="bg-white">
                   <Table.Cell className=' text-left'>{data.mle_formateur}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap text-left">{data.nom_formateur}</Table.Cell>

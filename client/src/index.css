@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.table-scroll-top {
+    width: 100%;
+    overflow-x: auto;
+    position: relative;
+  }
+
+  /* Wrapper to ensure the table scrolls correctly */
+  .table-wrapper {
+    width: max-content; /* Ensures the table takes up only as much space as it needs */
+  }
+
+  /* Styling for the scrollbar at the top */
+  .table-scroll-top::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .table-scroll-top::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+
+  .table-scroll-top::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
