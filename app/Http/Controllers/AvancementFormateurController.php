@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AvancementFormateurExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Exports\ExcelExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class AvancementFormateurController extends Controller
 {
@@ -103,5 +107,10 @@ class AvancementFormateurController extends Controller
         //dd($results);
         return response()->json($results);
         //return view('formateur-report', ['results' => $results]);
+    }
+
+    public function export() 
+    {
+        return Excel::download(new AvancementFormateurExport, 'avancement-formateurs.xlsx');
     }
 }

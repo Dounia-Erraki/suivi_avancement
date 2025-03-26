@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Formation;
+use App\Exports\ExcelExport;
+use App\Exports\RendementFormateurExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FormateursRendementController extends Controller
 {
@@ -37,4 +39,11 @@ class FormateursRendementController extends Controller
 
         return response()->json($formateurs);
     }
+
+    public function export() 
+    {
+        return Excel::download(new RendementFormateurExport, 'rendement-formateurs.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+
+    }
+
 }

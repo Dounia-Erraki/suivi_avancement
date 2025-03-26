@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AvancementGroupeExport;
+use App\Exports\AvancementModuleExport;
 use App\Models\GroupesModule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Exports\ExcelExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ModuleController extends Controller
 {
@@ -28,8 +32,6 @@ class ModuleController extends Controller
     }
     public function getAvancementData()
     {
-        // Exécuter la requête SQL
-        // Exécuter la requête SQL pour tous les groupes
         $results =  DB::select("
         SELECT
             f.niveau_formation AS Niveau,
@@ -66,6 +68,14 @@ class ModuleController extends Controller
     ");
         return response()->json($results);
         //return view('AvencementParGroup', ['data' => $results]);
+    }
+    public function exportModule() 
+    {
+        return Excel::download(new AvancementModuleExport, 'avancement-modules.xlsx');
+    }
+    public function exportGroupe() 
+    {
+        return Excel::download(new AvancementGroupeExport, 'avancement-groupes.xlsx');
     }
 
 }

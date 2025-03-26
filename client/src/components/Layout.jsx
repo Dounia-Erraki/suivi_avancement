@@ -1,13 +1,14 @@
 import {  useState } from 'react';
-import { FaUsers, FaCogs, FaCalendarAlt, FaChartPie, FaUpload  } from 'react-icons/fa';
+import { FaUsers, FaCogs, FaCalendarAlt, FaChartPie, FaDownload  } from 'react-icons/fa';
 import { RiUserFollowFill, RiFilePaperFill  } from "react-icons/ri";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { FaChalkboardUser } from "react-icons/fa6";
 import { Outlet, Link } from 'react-router-dom';
 
+
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(true);
-  const [activeItem, setActiveItem] = useState("Avancement par groupes");
+  const [activeItem, setActiveItem] = useState("Importer un fichier");
 
 
   const toggleSidebar = () => {
@@ -21,7 +22,7 @@ export default function Layout() {
     { name: "Etat d'avancement par Modules", icon: FaCogs, link: '/AvencementParModule' },
     { name: "État d'avancement du 1ᵉʳ semestre", icon: FaCalendarAlt, link: '/avancementSone' },
     { name: "Nombre EFM par Groupes ", icon: RiFilePaperFill, link: '/NombreEfmParGroup' },
-    { name: "Rendement des Formateurs", icon: FaChartPie, link: '/FormateursRendementController' },
+    { name: "Rendement des Formateurs", icon: FaChartPie, link: '/FormateursRendement' },
     { name: "Etat d'avancement par Formateurs", icon: RiUserFollowFill, link: '/avancementFormateur' },
   ];
 
@@ -56,7 +57,7 @@ export default function Layout() {
 
           <div className="space-y-1 px-2">
             <Link to="/importData" onClick={() => setActiveItem("Importer un fichier")} className={`flex items-center cursor-pointer rounded-lg transition-all duration-200 py-2 ${isOpen ? "px-3" : "px-0 justify-center"} ${activeItem === 'Importer un fichier' ? "bg-blue-100 text-blue-700 font-medium" : "hover:bg-gray-200"}`}>
-              <FaUpload  className={`${isOpen ? "mr-3" : "mx-auto"} h-4 w-4`} title={`${isOpen ? '':'Importer un fichier'}`}/>
+              <FaDownload  className={`${isOpen ? "mr-3" : "mx-auto"} h-4 w-4`} title={`${isOpen ? '':'Importer un fichier'}`}/>
               {isOpen && <span className="text-xs">Importer un fichier</span>}
             </Link>
           </div>

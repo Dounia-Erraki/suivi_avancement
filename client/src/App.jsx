@@ -23,14 +23,14 @@ function App() {
             <Route path="/" element={<Layout />}>
                 <Route path="/" element={<Header />}>
                     <Route
-                        path="FormateursRendementController"
+                        path="FormateursRendement"
                         element={<FormateursRendement />}
                     />
                     <Route
                         path="AffectationController"
                         element={<AffectationModule />}
                     />
-                    <Route path="importData" element={<ImportData />} />
+                    <Route index element={<ImportData />} />
                     <Route
                         path="AvencementParGroup"
                         element={<AvencementParGroup />}
@@ -44,7 +44,7 @@ function App() {
                         element={<AvencementParModule />}
                     />
                     <Route
-                        path="NombreEfmParGroup"
+                        path="nombreEfmParGroup"
                         element={<NombreEfmParGroup />}
                     />
                     <Route path="avancementSone" element={<AvancementSone />} />

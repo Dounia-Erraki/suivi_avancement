@@ -52,18 +52,18 @@ export default function Header() {
                     </div>
                 </Navbar.Collapse>
             </Navbar>
-            <h2 style={{ textAlign: "center", fontWeight: "bolder" }}>Date :
-                {excelData.length > 0
-                    ? new Date(excelData[0].date_maj).toLocaleDateString(
+            <div style={{ textAlign: "center", fontWeight: "bolder" }}>
+                {excelData.length > 0 && localStorage.getItem('login')
+                    ? <p>Date: {new Date(excelData[0].date_maj).toLocaleDateString(
                           "fr-FR",
                           {
                               day: "2-digit",
                               month: "2-digit",
                               year: "numeric",
                           }
-                      )
+                      )}</p>
                     : ""}
-            </h2>
+            </div>
 
             <Outlet />
         </>

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AvancementS1Export;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Exports\ExcelExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AvancementSemestreOneController extends Controller
 {
@@ -55,5 +58,10 @@ class AvancementSemestreOneController extends Controller
             //dd($results);
             return response()->json($results);
         //return view('module-report', ['results' => $results]);
+    }
+
+    public function export() 
+    {
+        return Excel::download(new AvancementS1Export, 'avancement-s1.xlsx');
     }
 }

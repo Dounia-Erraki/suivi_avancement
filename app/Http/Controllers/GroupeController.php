@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\GroupesModule;
-use Illuminate\Container\Attributes\DB;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as FacadesDB;
+use App\Exports\NombreEfmExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GroupeController extends Controller
 {
@@ -56,11 +55,15 @@ class GroupeController extends Controller
         ])
         ->select(
             'groupe_id',
-            'module_id',)
+            'module_id')
         ->groupBy('groupe_id', 'module_id')
         ->get();
 
     return response()->json($groupes);
-    // return view('NombreEfmParGroup',['groupes'=>$groupes]);
+    }
+
+    public function export() 
+    {
+        return Excel::download(new NombreEfmExport, 'nombre-efm.xlsx');
     }
 }

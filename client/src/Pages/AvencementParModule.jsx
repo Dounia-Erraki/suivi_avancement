@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table, Card, Spinner, Alert, Button } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
+import { RiFileExcel2Fill } from "react-icons/ri";
+import { FaFilePdf } from "react-icons/fa6";
 
 export default function AvencementParModule() {
     const [excelData, setExcelData] = useState([]);
@@ -40,6 +42,7 @@ export default function AvencementParModule() {
 
         fetchData();
     }, []);
+    
     useEffect(() => {
         if (searched) {
             setFilteredData(
@@ -51,6 +54,7 @@ export default function AvencementParModule() {
             setFilteredData(excelData);
         }
     }, [searched, excelData]);
+
     if (loading) {
         return (
             <div className="flex flex-col items-center">
@@ -73,12 +77,28 @@ export default function AvencementParModule() {
         );
     }
 
+    const handleExport = () => {
+        window.location.href = 'http://127.0.0.1:8000/export/avancement-modules';
+      };
+    
+
     return (
         <div className="mx-auto p-4">
             <Card>
-                <h2 className="text-2xl font-bold text-black mb-4">
-                Etat d'avancement par Modules
-                </h2>
+                <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-black mb-4">Etat d'avancement par Modules</h2>
+                <div className="flex space-x-2">
+                <button className="flex items-center px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
+                    <FaFilePdf className="h-4 w-4 mr-2" />
+                    <span className="text-md">PDF</span>
+                </button>
+                <button  className="flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" onClick={handleExport}>
+                    <RiFileExcel2Fill className="h-4 w-4 mr-2" />
+                    <span className="text-md">Excel</span>
+                </button>
+                </div>
+            </div>
+
                 <form>
                     <label
                         for="search"
